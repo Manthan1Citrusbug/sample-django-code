@@ -37,7 +37,7 @@ jobs:
             - name: Build and push Docker image to ECR
               run: |
                   # Build and push Docker image
-                  docker build -t ${{ env.ECR_REPOSITORY }}: .
+                  docker build -t ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA} .
                   docker push ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA}
 
     deploy:
