@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+    django: &django
+        build:
+            context: .
+            dockerfile: ./dockerfile
+        image: customs_b_django
+        container_name: customs_b_django
+        volumes:
+            - .:/app:z
+            - sqlite_db:/app/db.sqlite3
+        env_file:
+            - .env
+        ports:
+            - "8000:8000"
+        command: /start
+        tty: true
+
+volumes:
+    sqlite_db:
