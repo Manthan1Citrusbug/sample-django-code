@@ -53,10 +53,10 @@ jobs:
                   aws-region: ${{ env.AWS_REGION }}
             - name: Deploy to Staging
               run: |
-                  ssh -o StrictHostKeyChecking=no -i private_key ${{ env.EC2_USERNAME }}@${{ env.EC2_INSTANCE_IP }} \ 
-                  'sudo aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com && \
-                  sudo docker stop ${{ env.CONTAINER_NAME }} || true && \
-                  sudo docker rm ${{ env.CONTAINER_NAME }} || true && \
-                  sudo docker pull ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA} && \
-                  sudo docker run -d --name ${{ env.CONTAINER_NAME }} -p 8000:8000 ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA} &&
-                  sudo docker system prune -a -f'
+                  sudo aws ecr get-login-password --region ${{ env.AWS_REGION }}
+                  sudo docker login --username AWS --password-stdin ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+                  sudo docker stop ${{ env.CONTAINER_NAME }} || true
+                  sudo docker rm ${{ env.CONTAINER_NAME }} || true
+                  sudo docker pull ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA}
+                  sudo docker run -d --name ${{ env.CONTAINER_NAME }} -p 8000:8000 ${{ env.ECR_REPOSITORY }}:${GITHUB_SHA}
+                  sudo docker system prune -a -f
