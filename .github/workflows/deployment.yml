@@ -55,8 +55,8 @@ jobs:
             - name: Deploy to Staging
               run: |
                   aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-                  sudo docker stop ${{ secrets.CONTAINER_NAME }} || true
-                  sudo docker rm ${{ secrets.CONTAINER_NAME }} || true
+                  sudo docker stop ${{ env.CONTAINER_NAME }} || true
+                  sudo docker rm ${{ env.CONTAINER_NAME }} || true
                   sudo docker pull ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
-                  sudo docker run -d --name ${{ secrets.CONTAINER_NAME }} -p 8000:8000 ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+                  sudo docker run -d --name ${{ env.CONTAINER_NAME }} -p 8000:8000 ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
                   sudo docker system prune -a -f
